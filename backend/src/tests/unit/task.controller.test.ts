@@ -1,7 +1,7 @@
-import * as taskController from './task.controller';
-import * as taskService from '../services/task.service';
-import * as responses from '../utils/responses';
-import * as errorHandler from '../utils/error-handler';
+import * as taskController from '../../controllers/task.controller';
+import * as taskService from '../../services/task.service';
+import * as responses from '../../utils/responses';
+import * as errorHandler from '../../utils/error-handler';
 
 const mockReq = (data: any = {}) => ({ ...data }) as any;
 const mockRes = () => {

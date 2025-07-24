@@ -1,4 +1,8 @@
-import { createTaskSchema, markTaskCompletedSchema, getTasksSchema } from './task.validation';
+import {
+  createTaskSchema,
+  markTaskCompletedSchema,
+  getTasksSchema,
+} from '../../validations/task.validation';
 
 describe('Validation Schemas', () => {
   describe('createTaskSchema', () => {

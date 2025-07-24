@@ -1,7 +1,7 @@
-import * as taskService from './task.service';
-import prisma from '../config/db';
+import * as taskService from '../../services/task.service';
+import prisma from '../../config/db';
 
-jest.mock('../config/db', () => ({
+jest.mock('../../config/db', () => ({
   __esModule: true,
   default: {
     task: {
