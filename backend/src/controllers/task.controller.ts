@@ -9,8 +9,6 @@ export const getTasks = async (req: Request, res: Response, next: NextFunction) 
     const tasks = await taskService.getTasks(take);
     return successResponse(res, tasks);
   } catch (err) {
-    console.log(err);
-
     return handleError(res, err);
   }
 };
@@ -28,8 +26,8 @@ export const createTask = async (req: Request, res: Response, next: NextFunction
 export const markTaskCompleted = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
-    await taskService.markTaskCompleted(id);
-    return successResponse(res, {});
+    const updatedTask = await taskService.markTaskCompleted(id);
+    return successResponse(res, updatedTask);
   } catch (err) {
     return handleError(res, err);
   }
