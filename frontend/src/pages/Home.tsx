@@ -12,7 +12,11 @@ export default function Home() {
   const fetchTasks = useCallback(async () => {
     try {
       setIsLoading(true);
-      const res = await getTasksApi(taskLimit);
+      // Add delay to prevent loading flicker
+      const delay = new Promise((resolve) => setTimeout(resolve, 300));
+      const resPromise = getTasksApi(taskLimit);
+
+      const [res] = await Promise.all([resPromise, delay]);
       setTasks(res.data.data);
     } finally {
       setIsLoading(false);
