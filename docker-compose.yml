@@ -20,11 +20,16 @@ services:
     command: sh -c "npx prisma migrate deploy && npm run start"
 
   frontend:
-    build: ./frontend
+    build: 
+      context: ./frontend
+      args:
+        VITE_API_URL: ${VITE_API_URL}
     ports:
       - "3000:3000"
     depends_on:
       - backend
+    env_file:
+      - .env
 
 volumes:
   db-data:
