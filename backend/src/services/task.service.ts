@@ -26,3 +26,14 @@ export const markTaskCompleted = async (id: string) => {
     throw err;
   }
 };
+
+export const deleteOldTasks = async () => {
+  await prisma.task.deleteMany({
+    where: {
+      completed: true,
+      createdAt: {
+        lt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // 7 days ago
+      },
+    },
+  });
+};

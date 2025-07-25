@@ -26,6 +26,7 @@ jest.mock('../../config/db', () => {
           tasks[idx] = { ...tasks[idx], ...data };
           return tasks[idx];
         }),
+        deleteMany: jest.fn(),
       },
     },
   };

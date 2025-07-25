@@ -8,6 +8,7 @@ jest.mock('../../config/db', () => ({
       findMany: jest.fn(),
       create: jest.fn(),
       update: jest.fn(),
+      deleteMany: jest.fn(),
     },
   },
 }));
@@ -61,6 +62,19 @@ describe('taskService', () => {
         data: { completed: true },
       });
       expect(result).toEqual({ id: '1', completed: true });
+    });
+  });
+
+  describe('deleteOldTasks', () => {
+    it('should call prisma.task.deleteMany with correct args', async () => {
+      (prisma.task.deleteMany as jest.Mock).mockResolvedValue({ count: 1 });
+      const result = await taskService.deleteOldTasks();
+      expect(prisma.task.deleteMany).toHaveBeenCalledWith({
+        where: {
+          completed: true,
+          createdAt: { lt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },
+        },
+      });
     });
   });
 });
