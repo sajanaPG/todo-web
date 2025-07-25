@@ -7,10 +7,16 @@ import { taskLimit } from '../constants/constants';
 
 export default function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchTasks = useCallback(async () => {
-    const res = await getTasksApi(taskLimit);
-    setTasks(res.data.data);
+    try {
+      setIsLoading(true);
+      const res = await getTasksApi(taskLimit);
+      setTasks(res.data.data);
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
 
   useEffect(() => {
@@ -35,7 +41,7 @@ export default function Home() {
           <TaskForm onTaskCreated={handleTaskCreate} />
         </div>
         <div className="md:w-2/3 flex-grow">
-          <TaskList tasks={tasks} refresh={fetchTasks} />
+          <TaskList tasks={tasks} isLoading={isLoading} refresh={fetchTasks} />
         </div>
       </div>
     </div>

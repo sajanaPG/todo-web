@@ -8,13 +8,19 @@ interface Props {
 export default function TaskForm({ onTaskCreated }: Props) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
+    setIsLoading(true);
     e.preventDefault();
-    const res = await createTaskApi({ title, description });
-    onTaskCreated(res.data.data);
-    setTitle('');
-    setDescription('');
+    try {
+      const res = await createTaskApi({ title, description });
+      onTaskCreated(res.data.data);
+      setTitle('');
+      setDescription('');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -38,9 +44,10 @@ export default function TaskForm({ onTaskCreated }: Props) {
       />
       <button
         type="submit"
+        disabled={isLoading}
         className="w-full bg-teal-900 text-white font-medium py-2 px-4 rounded hover:bg-teal-800 transition"
       >
-        Add
+        {isLoading ? 'Adding...' : 'Add'}
       </button>
     </form>
   );
